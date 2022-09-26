@@ -1,0 +1,5 @@
+<launch>
+  <group ns="pid_simulator">
+    <node pkg="f11_simulator" name="controller" type="controller" output="screen"/>
+  </group>
+</launch>

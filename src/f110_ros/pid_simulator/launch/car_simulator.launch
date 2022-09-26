@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Launch a map from the maps folder-->
+  <arg name="map" default="$(find pid_simulator)/maps/race_track.yaml"/>
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map)"/>
+
+  <!-- Launch the racecar model -->
+  <include file="$(find pid_simulator)/launch/racecar_model.launch"/>
+
+  <!-- Begin the simulator with the parameters from params.yaml -->
+  <node pkg="pid_simulator" name="pid_simulator" type="simulator" output="screen">
+    <rosparam command="load" file="$(find pid_simulator)/params.yaml"/>
+  </node>
+
+  <!-- Launch the Keyboard Node -->
+  <!-- Insert keyboard node declaration here. Have a look at the template below and follow the syntax. -->
+
+  <!-- Node declaration template -->
+  <!--
+  <node pkg="pid_simulator" name="new node's name" type="new file name" output="screen"/>
+  -->
+  <node pkg="pid_simulator" name="keyboard_teleop" type="keyboard_teleop" output="screen"/>
+  <node pkg="pid_simulator" name="js_driver" type="js_driver" output="screen"/>
+  <node pkg="pid_simulator" name="pid_controller" type="pid_controller" output="screen"/>
+  <node pkg="pid_simulator" name="mux" type="mux" output="screen"/>
+
+
+  <!-- Launch RVIZ -->
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find pid_simulator)/launch/simulator.rviz" output="screen"/>
+</launch>
